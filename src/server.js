@@ -25,6 +25,7 @@ class Server extends Base {
     options = options || {};
     this.path = path;
     this.services = services;
+    this.suppressStack = options && options.suppressStack;
 
     debug('Server parameters: path: %s services: %j wsdl: %j', path, services, wsdl);
     if (path[path.length - 1] !== '/')
@@ -111,7 +112,7 @@ class Server extends Base {
           });
         }
         catch (err) {
-          error = err.stack || err;
+          error = err.stack ? (self.suppressStack === true ? err.message : err.stack) : err;
           res.statusCode = 500;
           res.write(error);
           res.end();
