@@ -117,7 +117,7 @@ class Server extends Base {
           res.write(error);
           res.end();
           if (typeof self.log === 'function') {
-            self.log('error', error);
+            self.log('error', err.stack || err);
           }
         }
       });
